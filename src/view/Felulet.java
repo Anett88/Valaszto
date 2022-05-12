@@ -20,11 +20,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Felulet extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Felulet
-     */
+    private boolean voltValtozas;
     public Felulet() {
         initComponents();
+        voltValtozas=false;
     }
 
     /**
@@ -45,12 +44,12 @@ public class Felulet extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         btnMentes = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
+        btnKilepes = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mnKilepes = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
@@ -59,12 +58,22 @@ public class Felulet extends javax.swing.JFrame {
 
         jMenuItem2.setText("jMenuItem2");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lapokat"));
 
         buttonGroup2.add(jRadioButton1);
         jRadioButton1.setText("lapokat felsorol");
+        jRadioButton1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                valtozas(evt);
+            }
+        });
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -74,6 +83,11 @@ public class Felulet extends javax.swing.JFrame {
         buttonGroup2.add(jRadioButton2);
         jRadioButton2.setSelected(true);
         jRadioButton2.setText("lapokat összértéke");
+        jRadioButton2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                valtozas(evt);
+            }
+        });
 
         btnMentes.setText("Mentés");
         btnMentes.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +99,12 @@ public class Felulet extends javax.swing.JFrame {
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Mentésnél ment");
 
-        jButton2.setText("Kilépes");
+        btnKilepes.setText("Kilépes");
+        btnKilepes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKilepesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -102,7 +121,7 @@ public class Felulet extends javax.swing.JFrame {
                             .addComponent(jCheckBox1)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jButton2)))
+                        .addComponent(btnKilepes)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -117,7 +136,7 @@ public class Felulet extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jButton2))
+                .addComponent(btnKilepes))
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/res/Hatter.jpg"))); // NOI18N
@@ -127,13 +146,13 @@ public class Felulet extends javax.swing.JFrame {
         jMenuItem1.setText("Mentés");
         jMenu2.add(jMenuItem1);
 
-        jMenuItem3.setText("Kilépés");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mnKilepes.setText("Kilépés");
+        mnKilepes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mnKilepesActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem3);
+        jMenu2.add(mnKilepes);
 
         jMenuBar1.add(jMenu2);
 
@@ -184,12 +203,12 @@ public class Felulet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
+    
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    private void mnKilepesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnKilepesActionPerformed
+        kilepes();        
+    }//GEN-LAST:event_mnKilepesActionPerformed
 
     private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
         
@@ -215,8 +234,8 @@ public class Felulet extends javax.swing.JFrame {
             uzenet+="Elérési út: "+valaszto.getCurrentDirectory()+"\n";
             
         
-        
-        if(valaszto.showOpenDialog(jPanel2)==JFileChooser.APPROVE_OPTION){
+        int gomb =valaszto.showOpenDialog(jPanel2);
+        if(gomb==JFileChooser.APPROVE_OPTION){
             
              felugro(uzenet);      
             
@@ -225,15 +244,39 @@ public class Felulet extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnMentesActionPerformed
+
+    private void btnKilepesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKilepesActionPerformed
+        kilepes();   
+    }//GEN-LAST:event_btnKilepesActionPerformed
+
+    private void valtozas(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_valtozas
+        voltValtozas=true;
+    }//GEN-LAST:event_valtozas
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       kilepes(); 
+    }//GEN-LAST:event_formWindowClosing
     private int felugro(String uzenet){
         Icon icon =new ImageIcon(this.getClass().getResource("res/Me.jpg"));
         
-        return JOptionPane.showConfirmDialog(this, uzenet, "Kéréds", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,icon);
-        
-        
-        
+        return JOptionPane.showConfirmDialog(this, uzenet, "Kérdés", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,icon);
+          
         
     }
+    
+    private void kilepes(){
+        if(voltValtozas){
+            if (felugro("Biztos kilép?") == JOptionPane.OK_OPTION) {                
+                System.exit(0);
+            }
+        }else{
+           System.exit(0);
+            
+        }
+        
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -270,10 +313,10 @@ public class Felulet extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKilepes;
     private javax.swing.JButton btnMentes;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -282,11 +325,11 @@ public class Felulet extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JMenuItem mnKilepes;
     // End of variables declaration//GEN-END:variables
 }
