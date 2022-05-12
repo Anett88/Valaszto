@@ -5,6 +5,15 @@
  */
 package view;
 
+import java.awt.Component;
+import java.awt.Graphics;
+import java.io.File;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Anett
@@ -30,10 +39,11 @@ public class Felulet extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
+        btnMentes = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -53,6 +63,7 @@ public class Felulet extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lapokat"));
 
+        buttonGroup2.add(jRadioButton1);
         jRadioButton1.setText("lapokat felsorol");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,9 +71,16 @@ public class Felulet extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup2.add(jRadioButton2);
+        jRadioButton2.setSelected(true);
         jRadioButton2.setText("lapokat összértéke");
 
-        jButton1.setText("Mentés");
+        btnMentes.setText("Mentés");
+        btnMentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMentesActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Mentésnél ment");
@@ -80,7 +98,7 @@ public class Felulet extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton1)
                             .addComponent(jRadioButton2)
-                            .addComponent(jButton1)
+                            .addComponent(btnMentes)
                             .addComponent(jCheckBox1)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
@@ -95,7 +113,7 @@ public class Felulet extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButton2)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnMentes)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
@@ -170,13 +188,52 @@ public class Felulet extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
 
+    private void btnMentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMentesActionPerformed
+        JFileChooser valaszto= new JFileChooser(new File("."));
+        valaszto.setDialogTitle("Megnyitas");
+        
+   
+        FileNameExtensionFilter filterkepek = new FileNameExtensionFilter(".jpg,.gif", "jpg");
+        FileNameExtensionFilter filtertxt = new FileNameExtensionFilter(".txt","text");
+        
+        valaszto.addChoosableFileFilter(filterkepek);
+        valaszto.addChoosableFileFilter(filtertxt);
+
+        valaszto.setFileFilter(filtertxt);
+        valaszto.showOpenDialog(jPanel2);
+        
+        
+        String uzenet ="";
+            uzenet+="Fálj neve: "+valaszto.getSelectedFile().getName()+"\n";
+            uzenet+="Elérési út: "+valaszto.getCurrentDirectory()+"\n";
+            
+        
+        
+        if(valaszto.showOpenDialog(jPanel2)==JFileChooser.APPROVE_OPTION){
+            
+             felugro(uzenet);      
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnMentesActionPerformed
+    private int felugro(String uzenet){
+        Icon icon =new ImageIcon(this.getClass().getResource("res/Me.jpg"));
+        
+        return JOptionPane.showConfirmDialog(this, uzenet, "Kéréds", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,icon);
+        
+        
+        
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -213,8 +270,9 @@ public class Felulet extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMentes;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
